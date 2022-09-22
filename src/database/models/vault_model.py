@@ -14,3 +14,4 @@ class VaultModel(BaseModel):
 
     # Is the referencing a collection of items represented by the child.
     accounts = relationship('AccountModel')
+    cards = relationship('CardModel')
