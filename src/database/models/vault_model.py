@@ -10,7 +10,7 @@ class VaultModel(BaseModel):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(length=40), unique=True, index=True)
     description = Column(String(length=240))
-    icon_url = Column(String(length=260))
+    icon_type = Column(String(length=260))
 
     # Is the referencing a collection of items represented by the child.
     accounts = relationship('AccountModel')

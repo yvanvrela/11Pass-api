@@ -13,5 +13,5 @@ class AccountModel(BaseModel):
     password = Column(String(length=64))
     description = Column(String(length=240))
     page_url = Column(String(length=260))
-    icon_url = Column(String(length=260))
-    account_id = Column(Integer, ForeignKey(column='vaults.id'))
+    icon_type = Column(String(length=260))
+    vault_id = Column(Integer, ForeignKey(column='vaults.id'))
