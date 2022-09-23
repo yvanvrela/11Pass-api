@@ -1,10 +1,10 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
-from utils.database import Base as BaseModel
+from src.utils.database import Base 
 
 
-class VaultModel(BaseModel):
+class VaultModel(Base):
     __tablename__ = 'vaults'
 
     id = Column(Integer, primary_key=True, index=True)

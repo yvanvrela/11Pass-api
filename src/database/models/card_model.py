@@ -1,9 +1,9 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 
-from utils.database import Base as BaseModel
+from src.utils.database import Base 
 
 
-class CardModel(BaseModel):
+class CardModel(Base):
     __tablename__ = 'cards'
 
     id = Column(Integer, primary_key=True, index=True)
