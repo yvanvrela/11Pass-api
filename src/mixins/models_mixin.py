@@ -10,6 +10,24 @@ class IDMixin(BaseModel):
     )
 
 
+class UserIDReferenceMixin(BaseModel):
+    user_id: int = Field(
+        ...,
+        ge=1,
+        title='User id reference',
+        example=1,
+    )
+
+
+class VaultIDReferenceMixin(BaseModel):
+    vault_id: int = Field(
+        ...,
+        ge=1,
+        title='Vault id reference',
+        example=1,
+    )
+
+
 class EmailMixin(BaseModel):
     email: EmailStr = Field(...)
 

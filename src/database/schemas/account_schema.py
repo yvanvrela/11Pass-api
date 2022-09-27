@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from mixins.models_mixin import IDMixin, NameMixin, UsernameMixin, EmailMixin, PasswordMixin, DescriptionMixin, IconTypeMixin
+from mixins.models_mixin import IDMixin, UserIDReferenceMixin, VaultIDReferenceMixin, NameMixin, UsernameMixin, EmailMixin, PasswordMixin, DescriptionMixin, IconTypeMixin
 
 
 class AccountBase(NameMixin, UsernameMixin, EmailMixin, PasswordMixin, DescriptionMixin, IconTypeMixin, BaseModel):
@@ -10,10 +10,5 @@ class AccountBase(NameMixin, UsernameMixin, EmailMixin, PasswordMixin, Descripti
     )
 
 
-class AccountOut(IDMixin, AccountBase):
-    vault_id: int = Field(
-        ...,
-        ge=1,
-        title='Vault id reference',
-        example=1,
-    )
+class AccountOut(IDMixin, UserIDReferenceMixin, VaultIDReferenceMixin, AccountBase):
+    pass
