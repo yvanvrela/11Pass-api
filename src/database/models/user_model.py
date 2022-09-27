@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 
-from src.utils.database import Base 
+from src.utils.database import Base
 
 
 class UserModel(Base):
@@ -12,3 +13,7 @@ class UserModel(Base):
     password = Column(String(length=64))
     secret_key = Column(String(length=30), index=True)
     profile_url = Column(String(length=260))
+
+    vaults = relationship('VaultModel')
+    accounts = relationship('AccountModel')
+    cards = relationship('CardModel')

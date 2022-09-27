@@ -15,3 +15,4 @@ class AccountModel(Base):
     page_url = Column(String(length=260))
     icon_type = Column(String(length=260))
     vault_id = Column(Integer, ForeignKey(column='vaults.id'))
+    user_id=Column(Integer, ForeignKey(column='users.id'))

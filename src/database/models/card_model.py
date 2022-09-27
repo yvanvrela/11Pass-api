@@ -16,3 +16,5 @@ class CardModel(Base):
     pin = Column(String(length=10))
     description = Column(String(length=240))
     vault_id = Column(Integer, ForeignKey(column='vaults.id'))
+    user_id=Column(Integer, ForeignKey(column='users.id'))
+    

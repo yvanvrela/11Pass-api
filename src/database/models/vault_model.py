@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 from src.utils.database import Base 
@@ -11,6 +11,7 @@ class VaultModel(Base):
     name = Column(String(length=40), unique=True, index=True)
     description = Column(String(length=240))
     icon_type = Column(String(length=260))
+    user_id=Column(Integer, ForeignKey(column='users.id'))
 
     # Is the referencing a collection of items represented by the child.
     accounts = relationship('AccountModel')
