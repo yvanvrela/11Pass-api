@@ -1,15 +1,8 @@
 from pydantic import BaseModel, Field, EmailStr
-from mixins.models_mixin import IDMixin
+from mixins.models_mixin import IDMixin, PasswordMixin, UsernameMixin
 
 
 class UserBase(BaseModel):
-    username: str = Field(
-        ...,
-        min_length=1,
-        max_length=40,
-        example='Juan',
-    )
-
     email: EmailStr = Field(...)
 
     profile_url: str | None = Field(
@@ -30,10 +23,5 @@ class UserOut(IDMixin, UserBase):
     pass
 
 
-class UserLogin(UserBase):
-    password: str = Field(
-        ...,
-        min_length=12,
-        max_length=64,
-        example='Mypassword123.'
-    )
+class UserLogin(UserBase, PasswordMixin):
+    pass
