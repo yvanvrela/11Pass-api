@@ -12,8 +12,11 @@ class UserBase(BaseModel):
 
     email: EmailStr = Field(...)
 
-    profile_url: str = Field(
-        max_length=260, example='https://www.images.com/sdafjhasfasd')
+    profile_url: str | None = Field(
+        ...,
+        max_length=260,
+        example='https://www.images.com/sdafjhasfasd',
+    )
 
     secret_key: str | None = Field(
         ...,
