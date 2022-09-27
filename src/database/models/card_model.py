@@ -7,11 +7,11 @@ class CardModel(Base):
     __tablename__ = 'cards'
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(length=40), unique=True, index=True)
-    number = Column(String(length=40), unique=True, index=True)
+    name = Column(String(length=40), index=True)
+    number = Column(String(length=40), index=True)
     type = Column(String(length=40), index=True)
     bank = Column(String(length=40), index=True)
-    ccv = Column(String(length=10), unique=True)
+    ccv = Column(String(length=10))
     expiration = Column(String(length=10))
     pin = Column(String(length=10))
     description = Column(String(length=240))

@@ -8,7 +8,7 @@ class VaultModel(Base):
     __tablename__ = 'vaults'
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(length=40), unique=True, index=True)
+    name = Column(String(length=40), index=True)
     description = Column(String(length=240))
     icon_type = Column(String(length=260))
     user_id=Column(Integer, ForeignKey(column='users.id'))
