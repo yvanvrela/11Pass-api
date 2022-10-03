@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from mixins.models_mixin import IDMixin, UserIDReferenceMixin, VaultIDReferenceMixin, NameMixin, DescriptionMixin
+from src.mixins.models_mixin import IDMixin, UserIDReferenceMixin, VaultIDReferenceMixin, NameMixin, DescriptionMixin
 
 
 class CardModel(NameMixin, DescriptionMixin, BaseModel):

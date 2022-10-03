@@ -1,4 +1,4 @@
-from src.utils.database import SQLALCHEMY_DATABASE_URL as database_url
+from src.infra.database.config.database import SQLALCHEMY_DATABASE_URL as database_url
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -17,11 +17,11 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-from src.utils.database import Base 
-from src.database.models.account_model import AccountModel
-from src.database.models.card_model import CardModel
-from src.database.models.user_model import UserModel
-from src.database.models.vault_model import VaultModel
+from src.infra.database.config.database import Base 
+from src.infra.database.models.account_model import AccountModel
+from src.infra.database.models.card_model import CardModel
+from src.infra.database.models.user_model import UserModel
+from src.infra.database.models.vault_model import VaultModel
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
 

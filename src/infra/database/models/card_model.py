@@ -1,6 +1,6 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 
-from src.utils.database import Base 
+from src.infra.database.config.database import Base 
 
 
 class CardModel(Base):

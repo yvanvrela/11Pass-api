@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from mixins.models_mixin import IDMixin, UserIDReferenceMixin, VaultIDReferenceMixin, NameMixin, UsernameMixin, EmailMixin, PasswordMixin, DescriptionMixin, IconTypeMixin
+from src.mixins.models_mixin import IDMixin, UserIDReferenceMixin, VaultIDReferenceMixin, NameMixin, UsernameMixin, EmailMixin, PasswordMixin, DescriptionMixin, IconTypeMixin
 
 
 class AccountBase(NameMixin, UsernameMixin, EmailMixin, PasswordMixin, DescriptionMixin, IconTypeMixin, BaseModel):
