@@ -2,7 +2,8 @@ fastapi[all]
 python-multipart
 passlib[bcrypt]
 python-dotenv
-psycopg2
+#psycopg2
+psycopg2-binary
 python-jose[cryptography]
 pytest
 requests
