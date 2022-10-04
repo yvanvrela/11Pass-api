@@ -18,13 +18,21 @@ router = APIRouter()
              )
 def signup_user(user: user_schema.UserLogin = Body(...), session: Session = Depends(get_db)):
     # Verify user
-    user_reference = UserRepository(session).get_user(user.email)
+    user_reference_email = UserRepository(session).get_user(user.email)
 
-    if user_reference:
+    if user_reference_email:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Email already registered.'
         )
+
+    user_reference_username = UserRepository(session).get_user(user.username)
+    if user_reference_username:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Username already registered.'
+        )
+    
 
     # Generate the user secret key
     user.secret_key = security.secret_key_generator()
