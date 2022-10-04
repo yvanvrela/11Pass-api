@@ -31,5 +31,11 @@ class UserLogin(UserBase, PasswordMixin):
         orm_mode = True
 
 
-class UserLoginForm(EmailMixin, PasswordMixin, BaseModel):
-    pass
+class UserLoginForm(PasswordMixin, BaseModel):
+    email: str = Field(
+        ...,
+        min_length=1,
+        max_length=60,
+        example = 'user@example.com or username123',
+    )
+    

@@ -1,4 +1,5 @@
-from sqlalchemy import select
+from operator import or_
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from src.infra.database.models.user_model import UserModel
 from src.infra.schemas import user_schema
@@ -21,5 +22,22 @@ class UserRepository():
         self.session.refresh(user_bd)
         return user_bd
 
-    def get_user_by_email(self, user_email: str) -> UserModel:
-        return self.session.query(UserModel).filter(UserModel.email == user_email).first()
+    def get_user(self, user_email: str) -> UserModel:
+        """Get user by email or username
+
+        This is repository function search a user by email or username.
+
+        Args:
+
+            user_email (str): User email or username.
+
+        Returns:
+
+            UserModel: usermodel information.
+        """
+        return self.session.query(UserModel).filter(
+            or_(
+                UserModel.email == user_email,
+                UserModel.username == user_email
+            )
+        ).first()

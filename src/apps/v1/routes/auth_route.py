@@ -18,7 +18,7 @@ router = APIRouter()
              )
 def signup_user(user: user_schema.UserLogin = Body(...), session: Session = Depends(get_db)):
     # Verify user
-    user_reference = UserRepository(session).get_user_by_email(user.email)
+    user_reference = UserRepository(session).get_user(user.email)
 
     if user_reference:
         raise HTTPException(

@@ -36,7 +36,7 @@ def authenticate_user(user_email: str, password: str, session: Session = Depends
 
         UserModel | bool: UserModel is the user object or bool default is False.
     """
-    user = UserRepository(session).get_user_by_email(user_email)
+    user = UserRepository(session).get_user(user_email)
     if not user:
         return False
     if not password_provider.verify_password(password, user.password):
@@ -72,7 +72,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), session: Session = Dep
     except JWTError:
         raise credentials_exception
 
-    user = UserRepository(session).get_user_by_email(email)
+    user = UserRepository(session).get_user(email)
     if user is None:
         raise credentials_exception
     return user
