@@ -22,6 +22,4 @@ class UserRepository():
         return user_bd
 
     def get_user_by_email(self, user_email: str) -> UserModel:
-        query = select(UserModel).where(
-            UserModel.email == user_email)
-        return self.session.execute(query).first()
+        return self.session.query(UserModel).filter(UserModel.email == user_email).first()
