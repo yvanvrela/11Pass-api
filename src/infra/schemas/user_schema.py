@@ -1,9 +1,8 @@
 from pydantic import BaseModel, Field, EmailStr
-from src.mixins.models_mixin import IDMixin, PasswordMixin, UsernameMixin
+from src.mixins.models_mixin import EmailMixin, IDMixin, PasswordMixin, UsernameMixin
 
 
-class UserBase(UsernameMixin, BaseModel):
-    email: EmailStr = Field(...)
+class UserBase(UsernameMixin, EmailMixin, BaseModel):
 
     profile_url: str | None = Field(
         ...,
@@ -30,3 +29,7 @@ class UserOut(IDMixin, UserBase):
 class UserLogin(UserBase, PasswordMixin):
     class Config:
         orm_mode = True
+
+
+class UserLoginForm(EmailMixin, PasswordMixin, BaseModel):
+    pass
