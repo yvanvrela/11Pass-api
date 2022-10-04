@@ -13,8 +13,13 @@ class Settings(BaseSettings):
     db_host: str = os.getenv('DB_HOST')
     db_port: str = os.getenv('DB_PORT')
 
+    # Security 
     secret_key: str = os.getenv('SECRET_KEY')
     token_expire: int = os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES')
+    algorithm_type: str = os.getenv('ALGORITHM')
+
+    # Prefix route
+    api_prefix_router: str = os.getenv('API_PREFIX_ROUTER')
 
     @property
     def db_name(self):

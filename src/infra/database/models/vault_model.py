@@ -14,5 +14,6 @@ class VaultModel(Base):
     user_id=Column(Integer, ForeignKey(column='users.id'))
 
     # Is the referencing a collection of items represented by the child.
-    accounts = relationship('AccountModel')
-    cards = relationship('CardModel')
+    user = relationship('UserModel', back_populates='vaults')
+    accounts = relationship('AccountModel', back_populates='vaults')
+    cards = relationship('CardModel', back_populates='vaults')

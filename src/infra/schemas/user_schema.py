@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field, EmailStr
 from src.mixins.models_mixin import IDMixin, PasswordMixin, UsernameMixin
 
 
-class UserBase(BaseModel):
+class UserBase(UsernameMixin, BaseModel):
     email: EmailStr = Field(...)
 
     profile_url: str | None = Field(
@@ -18,10 +18,15 @@ class UserBase(BaseModel):
         example='c89aac42b1tE0eae7V7e'
     )
 
+    class Config:
+        orm_mode = True
+
 
 class UserOut(IDMixin, UserBase):
-    pass
+    class Config:
+        orm_mode = True
 
 
 class UserLogin(UserBase, PasswordMixin):
-    pass
+    class Config:
+        orm_mode = True

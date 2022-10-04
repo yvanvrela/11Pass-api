@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
-
+from sqlalchemy.orm import relationship
 from src.infra.database.config.database import Base 
 
 
@@ -18,3 +18,5 @@ class CardModel(Base):
     vault_id = Column(Integer, ForeignKey(column='vaults.id'))
     user_id=Column(Integer, ForeignKey(column='users.id'))
     
+    user = relationship('UserModel', back_populates='cards')
+    vaults = relationship('VaultModel', back_populates='cards')   
