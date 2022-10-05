@@ -16,7 +16,7 @@ from src.core.settings import Settings
 
 
 settings = Settings()
-url_prefix = settings.api_prefix_router
+url_prefix = settings.api_v1_url
 
 # Instance the login url and to validate token
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f'{url_prefix}/auth/login')
