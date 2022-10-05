@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Body, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from src.infra.schemas import user_schema, token_schema
 from src.infra.database.repositories.user_repository import UserRepository
@@ -32,7 +33,6 @@ def signup_user(user: user_schema.UserLogin = Body(...), session: Session = Depe
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Username already registered.'
         )
-    
 
     # Generate the user secret key
     user.secret_key = security.secret_key_generator()
@@ -49,10 +49,23 @@ def signup_user(user: user_schema.UserLogin = Body(...), session: Session = Depe
              response_model=token_schema.Token,
              summary='Login a user'
              )
-def login_for_access_token(login_data: user_schema.UserLoginForm, session: Session = Depends(get_db)):
+def login_for_access_token(login_data: OAuth2PasswordRequestForm = Depends(), session: Session = Depends(get_db)):
+    """Login for access token
 
+    This path operation login the user for access token.
+
+    Args:
+
+        form_data (OAuth2PasswordRequestForm): 
+            - username: Ther user email.
+            - password: The user password.
+
+    Returns:
+
+        json: json access token and token type.
+    """
     user_reference = auth_utils.authenticate_user(
-        login_data.email, login_data.password, session)
+        login_data.username, login_data.password, session)
 
     if not user_reference:
         raise HTTPException(

@@ -29,13 +29,3 @@ class UserOut(IDMixin, UserBase):
 class UserLogin(UserBase, PasswordMixin):
     class Config:
         orm_mode = True
-
-
-class UserLoginForm(PasswordMixin, BaseModel):
-    email: str = Field(
-        ...,
-        min_length=1,
-        max_length=60,
-        example = 'user@example.com or username123',
-    )
-    
