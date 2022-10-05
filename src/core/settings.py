@@ -6,6 +6,9 @@ load_dotenv()
 
 
 class Settings(BaseSettings):
+    # Project Name
+    project_name: str = os.getenv('PROJECT_NAME')
+
     # Private var
     _db_name: str = os.getenv('DB_NAME')
     db_user: str = os.getenv('DB_USER')
@@ -19,7 +22,7 @@ class Settings(BaseSettings):
     algorithm_type: str = os.getenv('ALGORITHM')
 
     # Prefix route
-    api_prefix_router: str = os.getenv('API_PREFIX_ROUTER')
+    api_v1_url: str = os.getenv('API_PREFIX_ROUTER')
 
     @property
     def db_name(self):
