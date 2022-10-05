@@ -11,6 +11,33 @@ from src.utils.auth_utils import get_current_user
 router = APIRouter()
 
 
+@router.get(path='/{id}',
+            status_code=status.HTTP_200_OK,
+            response_model=user_schema.UserOut,
+            summary='Get a user',
+            )
+def get_user(
+    id: int = Path(..., gt=0, example=1,),
+    current_user: user_model.UserModel = Depends(get_current_user),
+    session: Session = Depends(get_db),
+):
+    user_reference = UserRepository(session).get_user_by_id(id)
+    if not user_reference:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='User not found',
+        )
+
+    if id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='User not found',
+        )
+
+    user_db = user_reference
+    return user_db
+
+
 @router.put(path='/{id}',
             status_code=status.HTTP_200_OK,
             response_model=user_schema.UserOut,
