@@ -21,6 +21,18 @@ def get_user(
     current_user: user_model.UserModel = Depends(get_current_user),
     session: Session = Depends(get_db),
 ):
+    """Get a user
+
+    This path operation show the user by the id in the database.
+
+    Args:
+
+        id (int): This is the user id.
+
+    Returns:
+
+        Usermodel: usermodel user information.
+    """
     user_reference = UserRepository(session).get_user_by_id(id)
     if not user_reference:
         raise HTTPException(
@@ -51,17 +63,17 @@ def update_user(
 ):
     """Update a user
 
-      This path operation updated a user by id in the app.
+      This path operation updates the user by the id in the database.
 
       Args:
 
-          id (int): This is the user id.
-          user (user_schema.UserLogin): This is the User Login json.
-          current_user (Token): This is the Token user.
+        id (int): This is the user id.
+        update_data (user_schema.UserLogin): This is the User update data.
+        current_user (Token): This is the Token user.
 
       Returns:
 
-          json: json user information updated.
+        UserModel: usermodel user information updated.
     """
     # Verify user
     user_reference = UserRepository(session).get_user_by_id(user_id=id)
@@ -118,6 +130,19 @@ def delete_user(
     current_user=Depends(get_current_user),
     session: Session = Depends(get_db)
 ):
+    """Delete a user
+
+    This path operation delete a user by id in the database.
+
+    Args:
+
+        id (int): This is the user id.
+        token (str): This is the bearer token of the user.
+
+    Returns:
+
+        status_code: 204
+    """
     # Verify user
     user_reference = UserRepository(session).get_user_by_id(user_id=id)
     if not user_reference:
