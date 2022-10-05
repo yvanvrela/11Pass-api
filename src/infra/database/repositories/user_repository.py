@@ -54,7 +54,7 @@ class UserRepository():
         user_db.password = update_data.password
         user_db.profile_url = update_data.profile_url
 
-        self.session.add()
+        self.session.add(user_db)
         self.session.commit()
-        self.session.refresh()
+        self.session.refresh(user_db)
         return user_db
