@@ -1,4 +1,3 @@
-from operator import or_
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from src.infra.database.models.user_model import UserModel
@@ -41,3 +40,21 @@ class UserRepository():
                 UserModel.username == user_email
             )
         ).first()
+
+    def get_user_by_id(self, user_id: int) -> UserModel:
+        return self.session.query(UserModel).filter(UserModel.id == user_id).first()
+
+    def update_user(self, user_id: int, update_data: user_schema.UserLogin) -> UserModel:
+        user_db = self.session.query(UserModel).filter(
+            UserModel.id == user_id
+        ).first()
+
+        user_db.email = update_data.email
+        user_db.username = update_data.username
+        user_db.password = update_data.password
+        user_db.profile_url = update_data.profile_url
+
+        self.session.add()
+        self.session.commit()
+        self.session.refresh()
+        return user_db
