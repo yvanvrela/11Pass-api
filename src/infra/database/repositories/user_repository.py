@@ -42,12 +42,24 @@ class UserRepository():
         ).first()
 
     def get_user_by_id(self, user_id: int) -> UserModel:
-        return self.session.query(UserModel).filter(UserModel.id == user_id).first()
+        user_db = self.session.query(UserModel).filter(UserModel.id == user_id).first()
+        return user_db
 
     def update_user(self, user_id: int, update_data: user_schema.UserLogin) -> UserModel:
-        user_db = self.session.query(UserModel).filter(
-            UserModel.id == user_id
-        ).first()
+        """Update a user
+
+        This is repository function update the user by user data and id.
+
+        Args:
+
+            user_id (int): User id.
+            update_data (user_schema.UserLogin): user information to update.
+
+        Returns:
+
+            UserModel: usermodel information.
+        """
+        user_db = self.get_user_by_id(user_id)
 
         user_db.email = update_data.email
         user_db.username = update_data.username
@@ -57,4 +69,24 @@ class UserRepository():
         self.session.add(user_db)
         self.session.commit()
         self.session.refresh(user_db)
+        return user_db
+
+    def delete_user(self, user_id: int) -> UserModel:
+        """Delete a user
+
+        This is repository function delete the user by the user id.
+
+        Args:
+
+            user_id (int): User id.
+
+        Returns:
+
+            UserModel: usermodel delete infomation.
+        """
+
+        user_db = self.get_user_by_id(user_id)
+
+        self.session.delete(user_db)
+        self.session.commit()
         return user_db

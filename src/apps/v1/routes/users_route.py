@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Body, Path, HTTPException, status
 from sqlalchemy.orm import Session
 from src.infra.schemas import user_schema
+from src.infra.database.models import user_model
 from src.infra.database.repositories.user_repository import UserRepository
 from src.infra.providers import password_provider
 from src.infra.database.config.database import get_db
@@ -18,7 +19,7 @@ router = APIRouter()
 def update_user(
     id: int = Path(..., gt=0, example=1,),
     update_data: user_schema.UserLogin = Body(...,),
-    current_user=Depends(get_current_user),
+    current_user: user_model.UserModel = Depends(get_current_user),
     session: Session = Depends(get_db),
 ):
     """Update a user
@@ -35,9 +36,15 @@ def update_user(
 
           json: json user information updated.
     """
-    # Verify user
+    # Verify current user
     user_reference = UserRepository(session).get_user_by_id(user_id=id)
-    if current_user.id != user_reference.id:
+    if not user_reference:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='User not found',
+        )
+
+    if user_reference.id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail='User not found',
