@@ -1,14 +1,9 @@
 from fastapi import FastAPI
 # Routers
-from src.apps.v1.routes.auth_route import router as auth
-# Settings
-from src.core.settings import Settings
-
-settings = Settings()
-api_url_prefix = settings.api_prefix_router
+from src.apps.v1.routes import auth_route, users_route, vaults_route, accounts_route
 
 
-def register_routers(app: FastAPI) -> None:
+def register_api_routers(app: FastAPI, prefix_url) -> None:
     """Register the api routes
 
     This is function to register all router by the APIRouter.
@@ -17,5 +12,9 @@ def register_routers(app: FastAPI) -> None:
 
         app (FastAPI): FastAPI instance.
     """
+
     app.include_router(
-        auth, prefix=f'{api_url_prefix}/auth', tags=['Auth', 'User'])
+        auth_route.router, prefix=f'{prefix_url}/auth', tags=['Auth', 'Users'])
+
+    app.include_router(
+        users_route.router, prefix=f'{prefix_url}/users', tags=['Users'])
