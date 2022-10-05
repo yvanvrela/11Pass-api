@@ -36,7 +36,7 @@ def update_user(
 
           json: json user information updated.
     """
-    # Verify current user
+    # Verify user
     user_reference = UserRepository(session).get_user_by_id(user_id=id)
     if not user_reference:
         raise HTTPException(
@@ -44,7 +44,7 @@ def update_user(
             detail='User not found',
         )
 
-    if user_reference.id != current_user.id:
+    if id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail='User not found',
@@ -77,5 +77,35 @@ def update_user(
 
     user_db = UserRepository(session).update_user(
         user_id=id, update_data=update_data)
+
+    return user_db
+
+
+@router.delete(path='/{id}',
+               status_code=status.HTTP_200_OK,
+               response_model=user_schema.UserOut,
+               summary='Delete a user',
+               )
+def delete_user(
+    id: int = Path(..., gt=0, example=1),
+    current_user=Depends(get_current_user),
+    session: Session = Depends(get_db)
+):
+    # Verify user
+    user_reference = UserRepository(session).get_user_by_id(user_id=id)
+    if not user_reference:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='User not found',
+        )
+
+    # Verify current user
+    if id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='User not found',
+        )
+
+    user_db = UserRepository(session).delete_user(user_id=id)
 
     return user_db
