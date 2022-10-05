@@ -1,5 +1,8 @@
 from fastapi import FastAPI
-from src.extensions.router_extensions import register_routers
+from src.extensions.router_extensions import register_api_routers
+from src.core.settings import Settings
+
+settings = Settings()
 
 
 def create_app() -> FastAPI:
@@ -12,8 +15,11 @@ def create_app() -> FastAPI:
         FastAPI:  FastAPI is the app.
 
     """
-    app = FastAPI()
+    app = FastAPI(
+        title=settings.project_name,
+        openapi_url=f'{settings.api_v1_url}/openapi.json',
+    )
 
-    register_routers(app)
+    register_api_routers(app, prefix_url=settings.api_v1_url)
 
     return app
