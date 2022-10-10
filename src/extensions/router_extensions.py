@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from src.apps.v1.routes import auth_route, users_route, vaults_route, accounts_route
 
 
-def register_api_routers(app: FastAPI, prefix_url:str) -> None:
+def register_api_routers(app: FastAPI, prefix_url: str) -> None:
     """Register the api routes
 
     This is function to register all router by the APIRouter.
@@ -18,3 +18,6 @@ def register_api_routers(app: FastAPI, prefix_url:str) -> None:
 
     app.include_router(
         users_route.router, prefix=f'{prefix_url}/users', tags=['Users'])
+
+    app.include_router(
+        vaults_route.router, prefix=f'{prefix_url}/vaults', tags=['Vaults'])
