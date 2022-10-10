@@ -11,25 +11,6 @@ from src.utils.auth_utils import get_current_user
 router = APIRouter()
 
 
-@router.get(path='/',
-            status_code=status.HTTP_200_OK,
-            response_model=List[vault_schema.VaultOut],
-            summary='Get all user vaults',
-            )
-def get_vaults(
-    current_user: user_model.UserModel = Depends(get_current_user),
-    session: Session = Depends(get_db),
-):
-    vaults_db = VaultRepository(session).get_vaults(user_id=current_user.id)
-    if not vaults_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail='Vaults not found',
-        )
-
-    return vaults_db
-
-
 @router.post(path='/',
              status_code=status.HTTP_201_CREATED,
              response_model=vault_schema.VaultOut,
@@ -60,3 +41,22 @@ def create_vault(
     vault_db = VaultRepository(session).create_vault(vault)
 
     return vault_db
+
+
+@router.get(path='/',
+            status_code=status.HTTP_200_OK,
+            response_model=List[vault_schema.VaultOut],
+            summary='Get all user vaults',
+            )
+def get_vaults(
+    current_user: user_model.UserModel = Depends(get_current_user),
+    session: Session = Depends(get_db),
+):
+    vaults_db = VaultRepository(session).get_vaults(user_id=current_user.id)
+    if not vaults_db:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Vaults not found',
+        )
+
+    return vaults_db
