@@ -23,8 +23,16 @@ class VaultRepository():
         return vault_bd
 
     def get_vaults(self, user_id: int) -> List[vault_schema.VaultOut]:
-        statement = select(VaultModel).filter_by(user_id = user_id)
+        statement = select(VaultModel).filter_by(user_id=user_id)
         return self.session.execute(statement).scalars().all()
+
+    def get_vault_by_id(self,  vault_id: str, user_id: int) -> VaultModel:
+        return self.session.query(VaultModel).filter(
+            and_(
+                VaultModel.id == vault_id,
+                VaultModel.user_id == user_id
+            )
+        ).first()
 
     def get_vault_by_name(self,  vault_name: str, user_id: int) -> VaultModel:
         return self.session.query(VaultModel).filter(

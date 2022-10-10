@@ -43,6 +43,27 @@ def create_vault(
     return vault_db
 
 
+@router.get(path='/{id}',
+            status_code=status.HTTP_200_OK,
+            response_model=vault_schema.VaultOut,
+            summary='Get vault by id',
+            )
+def get_vault(
+    id: int = Path(..., gt=0, example=1),
+    current_user: user_model.UserModel = Depends(get_current_user),
+    session: Session = Depends(get_db),
+):
+    vault_db = VaultRepository(session).get_vault_by_id(
+        vault_id=id, user_id=current_user.id)
+    if not vault_db:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Vault not found',
+        )
+
+    return vault_db
+
+
 @router.get(path='/',
             status_code=status.HTTP_200_OK,
             response_model=List[vault_schema.VaultOut],
