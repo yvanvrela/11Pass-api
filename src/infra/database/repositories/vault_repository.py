@@ -43,3 +43,15 @@ class VaultRepository():
                 VaultModel.user_id == user_id
             )
         ).first()
+
+    def update_vault(self, user_id: int, vault_id: int, update_data: vault_schema.VaultBase) -> VaultModel:
+        vault_db = self.get_vault_by_id(vault_id, user_id)
+        
+        vault_db.name = update_data.name
+        vault_db.description = update_data.description
+        vault_db.icon_type = update_data.icon_type
+
+        self.session.add(vault_db)
+        self.session.commit()
+        self.session.refresh(vault_db)
+        return vault_db
