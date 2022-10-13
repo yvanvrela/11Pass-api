@@ -118,3 +118,28 @@ def update_vault(
         user_id=current_user.id, vault_id=id, update_data=update_data)
 
     return vault_db
+
+
+@router.delete(path='/{id}',
+               status_code=status.HTTP_200_OK,
+               response_model=vault_schema.VaultOut,
+               summary='Delete a vault',
+               )
+def delete_vault(
+    id: int = Path(..., gt=0, example=1,),
+    current_user: user_model.UserModel = Depends(get_current_user),
+    session: Session = Depends(get_db),
+):
+    # Verify vault reference by id
+    vault_reference = VaultRepository(session).get_vault_by_id(
+        vault_id=id, user_id=current_user.id)
+    if not vault_reference:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Vault not found.'
+        )
+
+    # Delete the vault
+    vault_db = VaultRepository(session).delete_vault(vault_id=id, user_id=current_user.id)
+
+    return vault_db

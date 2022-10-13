@@ -55,3 +55,10 @@ class VaultRepository():
         self.session.commit()
         self.session.refresh(vault_db)
         return vault_db
+
+    def delete_vault(self, vault_id: int, user_id) -> VaultModel:
+        vault_db = self.get_vault_by_id(vault_id, user_id)
+
+        self.session.delete(vault_db)
+        self.session.commit()
+        return vault_db
