@@ -2,7 +2,7 @@ FROM python:3.10
 
 RUN mkdir -p /home/elevenpass
 
-WORKDIR /home/elvenpass
+WORKDIR /home/elevenpass
 
 COPY ./requirements.txt /home/elevenpass/requirements.txt
 

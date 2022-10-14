@@ -14,11 +14,16 @@ services:
       - ./.env
     environment:
       - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=admin${DB_PASS}
+      - POSTGRES_PASSWORD=${DB_PASS}
       - POSTGRES_DB=${DB_NAME}
     restart: always
     volumes:
-      - db-data:/var/lib/postgresql/data
-
-volumes:
-  db-data:
+      - ./postgres-data:/var/lib/postgresql/data
+  pgadmin:    
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"

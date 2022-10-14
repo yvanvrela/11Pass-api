@@ -1,6 +1,6 @@
 FROM python:3.10
 
-WORKDIR /home/elvenpass
+WORKDIR /home/elevenpass
 
 RUN mkdir -p /home/elevenpass
 
