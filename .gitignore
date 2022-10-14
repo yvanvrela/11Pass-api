@@ -157,7 +157,10 @@ src/core/security.py
 
 # Run
 run.sh
+run.fish
 
+# Database
+postgres-data
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
