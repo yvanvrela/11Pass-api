@@ -21,3 +21,6 @@ def register_api_routers(app: FastAPI, prefix_url: str) -> None:
 
     app.include_router(
         vaults_route.router, prefix=f'{prefix_url}/vaults', tags=['Vaults'])
+
+    app.include_router(
+        accounts_route.router, prefix=f'{prefix_url}/accounts', tags=['Accounts'])
