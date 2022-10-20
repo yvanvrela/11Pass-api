@@ -39,7 +39,7 @@ def create_account(
         )
 
     secret_key = security.decode_secret_key(secret_key_encode=current_user.secret_key, current_user=current_user)
-    # Encrypt password
+    # Encode password
     account.password = security.encode_password(password=account.password, secret_key=secret_key)
 
     # Add to db
