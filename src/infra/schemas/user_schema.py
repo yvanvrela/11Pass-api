@@ -10,13 +10,6 @@ class UserBase(UsernameMixin, EmailMixin, BaseModel):
         example='https://www.images.com/sdafjhasfasd',
     )
 
-    secret_key: str | None = Field(
-        ...,
-        min_length=20,
-        max_length=64,
-        example='c89aac42b1tE0eae7V7e'
-    )
-
     class Config:
         orm_mode = True
 

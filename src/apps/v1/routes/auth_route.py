@@ -14,7 +14,7 @@ router = APIRouter()
 
 @router.post(path='/signup',
              status_code=status.HTTP_201_CREATED,
-             response_model=user_schema.UserBase,
+             response_model=user_schema.UserOut,
              summary='Create a new user',
              )
 def signup_user(user: user_schema.UserLogin = Body(...), session: Session = Depends(get_db)):
