@@ -35,9 +35,9 @@ def signup_user(user: user_schema.UserLogin = Body(...), session: Session = Depe
         )
 
     # Generate the user secret key
-    user.secret_key = security.secret_key_generator()
-    # Encode secret_key
-    user.secret_key = security.encode_secret_key(user.secret_key)
+    secret_key = security.secret_key_generator()
+    # Encode secret_key     
+    user.secret_key = security.encode_secret_key(secret_key)
     # Hash password
     user.password = password_provider.hash_password(user.password)
 

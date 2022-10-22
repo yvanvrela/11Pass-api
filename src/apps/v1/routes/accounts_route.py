@@ -37,8 +37,8 @@ def create_account(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Account name already exists.'
         )
-
-    secret_key = security.decode_secret_key(secret_key_encode=current_user.secret_key, current_user=current_user)
+    
+    secret_key = security.decode_secret_key(secret_key_encode=current_user.secret_key)
     # Encode password
     account.password = security.encode_password(password=account.password, secret_key=secret_key)
 
