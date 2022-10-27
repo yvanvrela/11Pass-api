@@ -32,3 +32,27 @@ class AccountRepository():
                 AccountModel.user_id == user_id
             )
         ).first()
+
+    def get_account_by_id(self, account_id: id, user_id: int) -> AccountModel:
+        return self.session.query(AccountModel).filter(
+            and_(
+                AccountModel.id == account_id,
+                AccountModel.user_id == user_id
+            )
+        ).first()
+
+    def update_account(self, account_id: id, user_id: int, update_data: account_schema.AccountBase) -> AccountModel:
+        account_db = self.get_account_by_id(account_id, user_id)    
+
+        account_db.name = update_data.name
+        account_db.username = update_data.username
+        account_db.email = update_data.email
+        account_db.password = update_data.password
+        account_db.description = update_data.description
+        account_db.page_url = update_data.page_url
+        account_db.icon_type = update_data.icon_type
+        
+        self.session.add()
+        self.session.commit()
+        self.session.refresh(account_db)
+        return account_db
