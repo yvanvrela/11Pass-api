@@ -11,7 +11,7 @@ class UserModel(Base):
     username = Column(String(length=40), unique=True, index=True)
     email = Column(String(length=50), unique=True, index=True)
     password = Column(String(length=64))
-    secret_key = Column(String(length=30), index=True)
+    secret_key = Column(String(length=260), index=True)
     profile_url = Column(String(length=260))
 
     vaults = relationship('VaultModel', back_populates='user')

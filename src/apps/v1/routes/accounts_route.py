@@ -37,12 +37,35 @@ def create_account(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Account name already exists.'
         )
-    
-    secret_key = security.decode_secret_key(secret_key_encode=current_user.secret_key)
+
+    secret_key = security.decode_secret_key(
+        secret_key_encode=current_user.secret_key)
     # Encode password
-    account.password = security.encode_password(password=account.password, secret_key=secret_key)
+    account.password = security.encode_password(
+        password=account.password, secret_key=secret_key)
 
     # Add to db
     account_db = AccountRepository(session).create_account(account)
+
+    return account_db
+
+
+@router.get(path='/{id}',
+            status_code=status.HTTP_200_OK,
+            response_model=account_schema.AccountOut,
+            summary='Get account by id',
+            )
+def get_account(
+    id: int = Path(..., gt=0, example=1),
+    current_user: user_model.UserModel = Depends(get_current_user),
+    session: Session = Depends(get_db),
+):
+    account_db = AccountRepository(session).get_account_by_id(
+        account_id=id, user_id=current_user.id)
+    if not account_db:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Account not found.',
+        )
 
     return account_db
