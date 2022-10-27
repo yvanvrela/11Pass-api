@@ -10,7 +10,7 @@ class AccountRepository():
     def __init__(self, session: Session) -> None:
         self.session = session
 
-    def create_account(self, account:account_schema.AccountBase)-> AccountModel:
+    def create_account(self, account: account_schema.AccountBase) -> AccountModel:
         account_db = AccountModel(
             name=account.name,
             username=account.username,
@@ -19,7 +19,7 @@ class AccountRepository():
             description=account.description,
             page_url=account.page_url,
             vault_id=account.vault_id,
-            user_id = account.user_id,
+            user_id=account.user_id,
         )
         self.session.add(account_db)
         self.session.add
@@ -33,7 +33,7 @@ class AccountRepository():
             )
         ).first()
 
-    def get_account_by_id(self, account_id: id, user_id: int) -> AccountModel:
+    def get_account_by_id(self, account_id: int, user_id: int) -> AccountModel:
         return self.session.query(AccountModel).filter(
             and_(
                 AccountModel.id == account_id,
@@ -42,7 +42,7 @@ class AccountRepository():
         ).first()
 
     def update_account(self, account_id: id, user_id: int, update_data: account_schema.AccountBase) -> AccountModel:
-        account_db = self.get_account_by_id(account_id, user_id)    
+        account_db = self.get_account_by_id(account_id, user_id)
 
         account_db.name = update_data.name
         account_db.username = update_data.username
@@ -51,8 +51,15 @@ class AccountRepository():
         account_db.description = update_data.description
         account_db.page_url = update_data.page_url
         account_db.icon_type = update_data.icon_type
-        
+
         self.session.add()
         self.session.commit()
         self.session.refresh(account_db)
+        return account_db
+
+    def delete_account(self, account_id: int, user_id: int) -> AccountModel:
+        account_db = self.get_account_by_id(account_id, user_id)
+
+        self.session.delete(account_db)
+        self.session.commit()
         return account_db
