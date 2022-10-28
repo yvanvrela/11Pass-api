@@ -27,6 +27,11 @@ class AccountRepository():
         self.session.refresh(account_db)
         return account_db
 
+    def get_accounts(self, user_id: int) -> List[account_schema.AccountCreate]:
+        statement = select(AccountModel).join_from(
+            AccountModel, UserModel).where(AccountModel.user_id == user_id)
+        return self.session.execute(statement).scalars().all()
+
     def get_account_by_name(self,  account_name: str, user_id: int) -> AccountModel:
         return self.session.query(AccountModel).filter(
             and_(
@@ -43,7 +48,7 @@ class AccountRepository():
             )
         ).first()
 
-    def update_account(self, account_id: id, user_id: int, update_data: account_schema.AccountBase) -> AccountModel:
+    def update_account(self, account_id: id, user_id: int, update_data: account_schema.AccountCreate) -> AccountModel:
         account_db = self.get_account_by_id(account_id, user_id)
 
         account_db.name = update_data.name

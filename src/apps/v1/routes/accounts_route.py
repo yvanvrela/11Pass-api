@@ -74,7 +74,37 @@ def get_account(
             secret_key_encode=current_user.secret_key
         )
     )
-    
+
     account_db.password = decode_password
 
     return account_db
+
+
+@router.get(path='/',
+            status_code=status.HTTP_200_OK,
+            response_model=List[account_schema.AccountCreate],
+            summary='Get all user accounts.',
+            )
+def get_accounts(
+    current_user: user_model.UserModel = Depends(get_current_user),
+    session: Session = Depends(get_db),
+):
+    accounts_db = AccountRepository(
+        session).get_accounts(user_id=current_user.id)
+    if not accounts_db:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Accounts not found.',
+        )
+
+    # Decode all passwords
+    for account in accounts_db:
+        decode_password = security.decode_password(
+            password_encode=account.password,
+            secret_key=security.decode_secret_key(
+                secret_key_encode=current_user.secret_key
+            )
+        )
+        account.password = decode_password
+
+    return accounts_db
