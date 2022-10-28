@@ -17,6 +17,7 @@ class AccountRepository():
             email=account.email,
             password=account.password,
             description=account.description,
+            icon_type=account.icon_type,
             page_url=account.page_url,
             vault_id=account.vault_id,
             user_id=account.user_id,
