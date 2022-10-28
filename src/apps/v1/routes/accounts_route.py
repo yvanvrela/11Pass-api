@@ -67,5 +67,14 @@ def get_account(
             status_code=status.HTTP_404_NOT_FOUND,
             detail='Account not found.',
         )
+
+    decode_password = security.decode_password(
+        password_encode=account_db.password,
+        secret_key=security.decode_secret_key(
+            secret_key_encode=current_user.secret_key
+        )
+    )
     
+    account_db.password = decode_password
+
     return account_db
