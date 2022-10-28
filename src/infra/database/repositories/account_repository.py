@@ -10,7 +10,7 @@ class AccountRepository():
     def __init__(self, session: Session) -> None:
         self.session = session
 
-    def create_account(self, account: account_schema.AccountBase) -> AccountModel:
+    def create_account(self, account: account_schema.AccountCreate) -> AccountModel:
         account_db = AccountModel(
             name=account.name,
             username=account.username,
@@ -23,7 +23,8 @@ class AccountRepository():
             user_id=account.user_id,
         )
         self.session.add(account_db)
-        self.session.add
+        self.session.commit()
+        self.session.refresh(account_db)
         return account_db
 
     def get_account_by_name(self,  account_name: str, user_id: int) -> AccountModel:

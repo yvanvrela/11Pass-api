@@ -18,7 +18,7 @@ router = APIRouter()
              summary='Create a account.'
              )
 def create_account(
-    account: account_schema.AccountBase,
+    account: account_schema.AccountCreate,
     current_user: user_model.UserModel = Depends(get_current_user),
     session: Session = Depends(get_db)
 ):
@@ -52,7 +52,7 @@ def create_account(
 
 @router.get(path='/{id}',
             status_code=status.HTTP_200_OK,
-            response_model=account_schema.AccountOut,
+            response_model=account_schema.AccountCreate,
             summary='Get account by id',
             )
 def get_account(
@@ -67,5 +67,5 @@ def get_account(
             status_code=status.HTTP_404_NOT_FOUND,
             detail='Account not found.',
         )
-
+    
     return account_db
