@@ -3,14 +3,6 @@ from src.mixins.models_mixin import EmailMixin, IDMixin, PasswordMixin, Username
 
 
 class UserBase(UsernameMixin, EmailMixin, BaseModel):
-
-    secret_key: str | None = Field(
-        ...,
-        min_length=20,
-        max_length=260,
-        example='c89aac42b1tE0eae7V7e'
-    )
-
     profile_url: str | None = Field(
         ...,
         max_length=260,
@@ -27,5 +19,11 @@ class UserOut(IDMixin, UserBase):
 
 
 class UserLogin(UserBase, PasswordMixin):
+    secret_key: str | None = Field(
+        ...,
+        min_length=20,
+        max_length=260,
+    )
+    
     class Config:
         orm_mode = True
