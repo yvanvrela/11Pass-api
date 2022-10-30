@@ -48,7 +48,7 @@ class AccountRepository():
             )
         ).first()
 
-    def update_account(self, account_id: id, user_id: int, update_data: account_schema.AccountCreate) -> AccountModel:
+    def update_account(self, user_id: int, account_id: id, update_data: account_schema.AccountCreate) -> AccountModel:
         account_db = self.get_account_by_id(account_id, user_id)
 
         account_db.name = update_data.name
@@ -59,7 +59,7 @@ class AccountRepository():
         account_db.page_url = update_data.page_url
         account_db.icon_type = update_data.icon_type
 
-        self.session.add()
+        self.session.add(account_db)
         self.session.commit()
         self.session.refresh(account_db)
         return account_db

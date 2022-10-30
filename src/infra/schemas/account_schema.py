@@ -9,6 +9,7 @@ class AccountBase(NameMixin, UsernameMixin, EmailMixin, DescriptionMixin, IconTy
         example='https://www.facebook.com/',
     )
 
+
 class AccountCreate(AccountBase):
     password: str = Field(
         ...,
@@ -21,6 +22,6 @@ class AccountCreate(AccountBase):
         orm_mode = True
 
 
-class AccountOut(IDMixin, AccountBase):
+class AccountOut(IDMixin, AccountCreate, AccountBase):
     class Config:
         orm_mode = True
