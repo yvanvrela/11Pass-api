@@ -153,6 +153,7 @@ def update_account(
     account_db = AccountRepository(session).update_account(
         user_id=current_user.id, account_id=id, update_data=update_data)
 
+    # Decode password to display in update data
     account_db.password = security.decode_password(
         password_encode=account_db.password, secret_key=secret_key)
 
