@@ -47,6 +47,10 @@ def create_account(
     # Add to db
     account_db = AccountRepository(session).create_account(account)
 
+     # Decode password to display in update data
+    account_db.password = security.decode_password(
+        password_encode=account_db.password, secret_key=secret_key)
+
     return account_db
 
 
@@ -142,6 +146,7 @@ def update_account(
                 detail='Account name already exists.'
             )
 
+    # Decode secret key
     secret_key = security.decode_secret_key(
         secret_key_encode=current_user.secret_key)
 
@@ -152,6 +157,40 @@ def update_account(
     # Add to db
     account_db = AccountRepository(session).update_account(
         user_id=current_user.id, account_id=id, update_data=update_data)
+
+    # Decode password to display in update data
+    account_db.password = security.decode_password(
+        password_encode=account_db.password, secret_key=secret_key)
+
+    return account_db
+
+
+@router.put(path='/{id}',
+            status_code=status.HTTP_200_OK,
+            response_model=account_schema.AccountOut,
+            summary='Delete a account',
+            )
+def delete_account(
+    id: int = Path(..., gt=0, example=1,),
+    current_user: user_model.UserModel = Depends(get_current_user),
+    session: Session = Depends(get_db),
+):
+    # Verify account reference by id
+    account_reference = AccountRepository(session).get_account_by_id(
+        account_id=id, user_id=current_user.id)
+    if not account_reference:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Account not found.'
+        )
+
+    # Delete the account
+    account_db = AccountRepository(session).delete_account(
+        account_id=id, user_id=current_user.id)
+
+    # Decode secret key
+    secret_key = security.decode_secret_key(
+        secret_key_encode=current_user.secret_key)
 
     # Decode password to display in update data
     account_db.password = security.decode_password(
