@@ -15,7 +15,7 @@ class CardModel(Base):
     expiration = Column(String(length=10))
     pin = Column(String(length=10))
     description = Column(String(length=240))
-    vault_id = Column(Integer, ForeignKey(column='vaults.id'))
+    vault_id = Column(Integer, ForeignKey(column='vaults.id', ondelete='CASCADE'))
     user_id=Column(Integer, ForeignKey(column='users.id'))
     
     user = relationship('UserModel', back_populates='cards')

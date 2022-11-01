@@ -14,6 +14,11 @@ class UserModel(Base):
     secret_key = Column(String(length=260), index=True)
     profile_url = Column(String(length=260))
 
-    vaults = relationship('VaultModel', back_populates='user')
+    vaults = relationship(
+        'VaultModel',
+        back_populates='user',
+        cascade='all, delete',
+        passive_deletes=True,
+    )
     accounts = relationship('AccountModel', back_populates='user')
     cards = relationship('CardModel', back_populates='user')

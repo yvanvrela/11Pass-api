@@ -165,7 +165,7 @@ def update_account(
     return account_db
 
 
-@router.put(path='/{id}',
+@router.delete(path='/{id}',
             status_code=status.HTTP_200_OK,
             response_model=account_schema.AccountOut,
             summary='Delete a account',

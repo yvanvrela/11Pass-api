@@ -27,7 +27,7 @@ class AccountRepository():
         self.session.refresh(account_db)
         return account_db
 
-    def get_accounts(self, user_id: int) -> List[account_schema.AccountCreate]:
+    def get_accounts(self, user_id: int) -> List[account_schema.AccountOut]:
         statement = select(AccountModel).join_from(
             AccountModel, UserModel).where(AccountModel.user_id == user_id)
         return self.session.execute(statement).scalars().all()
