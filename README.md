@@ -14,7 +14,8 @@ Features included:
 - Repository of vaults.
 - Repository of accounts.
 - Repository of credit cards.
-- SALAlchemy - Postgresql.
+- SQLAlchemy - Postgresql.
+- Alembic - Migrations.
 - JWT Authentication.
 - FastAPI Router.
 - Docker-Compose.
