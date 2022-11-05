@@ -25,7 +25,7 @@ def create_account(
 ):
     """Add a new account to the app
 
-    This path operation add a new account to the app.
+    This is the path operation add a new account to the app.
 
     Args:
 
