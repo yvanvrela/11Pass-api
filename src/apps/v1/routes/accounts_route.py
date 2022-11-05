@@ -16,13 +16,40 @@ router = APIRouter()
 @router.post(path='/',
              status_code=status.HTTP_201_CREATED,
              response_model=account_schema.AccountOut,
-             summary='Create a account.'
+             summary='Add a new account to the app'
              )
 def create_account(
-    account: account_schema.AccountCreate,
+    account: account_schema.AccountCreate = Body(...,),
     current_user: user_model.UserModel = Depends(get_current_user),
     session: Session = Depends(get_db)
 ):
+    """Add a new account to the app
+
+    This path operation add a new account to the app.
+
+    Args:
+
+        Account (json): These are the data to add. The example in the request body.
+        Token (str)
+
+    Raises:
+
+        HTTPException(json): If it is not a valid user id.
+            Code: 404,
+            detail:User not found.
+
+        HTTPException(json): If it is not a valid vault id.
+            Code: 404,
+            detail:Vault not found.
+
+        HTTPException(json): If it already exists account name.
+            Code: 400,
+            detail:Account name already exists.
+
+    Returns:
+
+        json: Account data.
+    """
     # Verify user
     if current_user.id != account.user_id:
         raise HTTPException(
@@ -66,14 +93,37 @@ def create_account(
 
 @router.get(path='/{id}',
             status_code=status.HTTP_200_OK,
-            response_model=account_schema.AccountCreate,
-            summary='Get account by id',
+            response_model=account_schema.AccountOut,
+            summary='Find account by ID',
             )
 def get_account(
-    id: int = Path(..., gt=0, example=1),
+    id: int = Path(...,
+                   gt=0,
+                   example=1,
+                   description='ID of account to return.',
+                   ),
     current_user: user_model.UserModel = Depends(get_current_user),
     session: Session = Depends(get_db),
-):
+) -> account_schema.AccountOut:
+    """Find account by ID
+
+    This path operation get account by ID, and return a single account.
+
+    Args:
+
+        id (int): This is the account id.
+        Token (str)
+
+    Raises:
+
+        HTTPException(json): If it is not a valid account id.
+            Code: 404,
+            detail:Account not found.
+
+    Returns:
+
+        json: Account data.
+    """
     account_db = AccountRepository(session).get_account_by_id(
         account_id=id, user_id=current_user.id)
     if not account_db:
@@ -97,12 +147,30 @@ def get_account(
 @router.get(path='/',
             status_code=status.HTTP_200_OK,
             response_model=List[account_schema.AccountOut],
-            summary='Get all user accounts.',
+            summary='Get a list with all accounts.',
             )
 def get_accounts(
     current_user: user_model.UserModel = Depends(get_current_user),
     session: Session = Depends(get_db),
-):
+) -> List[account_schema.AccountOut]:
+    """Get a list with all accounts.
+
+    This is the path operation to return a list of all accounts in the app.
+
+    Args:
+
+        Token (str)
+
+    Raises:
+
+        HTTPException(json): If it is not accounts.
+            Code: 404,
+            detail:Accounts not found.
+
+    Returns:
+
+        List[json]: Accounts data.
+    """
     accounts_db = AccountRepository(
         session).get_accounts(user_id=current_user.id)
     if not accounts_db:
@@ -127,14 +195,46 @@ def get_accounts(
 @router.put(path='/{id}',
             status_code=status.HTTP_200_OK,
             response_model=account_schema.AccountOut,
-            summary='Update a account',
+            summary='Update an existing account',
             )
 def update_account(
-    id: int = Path(..., gt=0, example=1,),
+    id: int = Path(...,
+                   gt=0,
+                   example=1,
+                   description='ID of account to update.',
+                   ),
     update_data: account_schema.AccountCreate = Body(...,),
     current_user: user_model.UserModel = Depends(get_current_user),
     session: Session = Depends(get_db),
-):
+) -> account_schema.AccountOut:
+    """Update an existing account
+
+    This is the path operation that updates an existing account in the app.
+
+    Args:
+
+        id (int): This is the account id.
+        update_data(json): These are the data to update.
+        Token (str)
+
+    Raises:
+
+        HTTPException(json): If it is not a valid user id.
+            Code: 404,
+            detail:User not found.
+
+        HTTPException(json): If it is not a valid vault id.
+            Code: 404,
+            detail:Vault not found.
+
+        HTTPException(json): If it already exists account name.
+            Code: 400,
+            detail:Account name already exists.
+
+    Returns:
+
+        json: Account data.
+    """
     # Verify account
     account_reference = AccountRepository(session).get_account_by_id(
         account_id=id, user_id=current_user.id)
@@ -178,13 +278,35 @@ def update_account(
 @router.delete(path='/{id}',
                status_code=status.HTTP_200_OK,
                response_model=account_schema.AccountOut,
-               summary='Delete a account',
+               summary='Delete an account',
                )
 def delete_account(
-    id: int = Path(..., gt=0, example=1,),
+    id: int = Path(...,
+                   gt=0,
+                   example=1,
+                   description='Account ID to delete',
+                   ),
     current_user: user_model.UserModel = Depends(get_current_user),
     session: Session = Depends(get_db),
-):
+) -> account_schema.AccountOut:
+    """Delete an account
+
+    This is the path operation that deletes an existing account in the app.
+
+    Args:
+
+        id (int): This is the account id.
+        Token (str)
+
+    Raises:
+
+        HTTPException(json): If it is not account.
+            Code: 404,
+            detail:Account not found.
+
+    Returns:
+        json: Account data.
+    """
     # Verify account reference by id
     account_reference = AccountRepository(session).get_account_by_id(
         account_id=id, user_id=current_user.id)
