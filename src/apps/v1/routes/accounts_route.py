@@ -30,21 +30,21 @@ def create_account(
     Args:
 
         Account (json): These are the data to add. The example in the request body.
-        Token (str)
+        Token (str): This is the bearer token.
 
     Raises:
 
         HTTPException(json): If it is not a valid user id.
             Code: 404,
-            detail:User not found.
+            detail: User not found.
 
         HTTPException(json): If it is not a valid vault id.
             Code: 404,
-            detail:Vault not found.
+            detail: Vault not found.
 
         HTTPException(json): If it already exists account name.
             Code: 400,
-            detail:Account name already exists.
+            detail: Account name already exists.
 
     Returns:
 
@@ -111,14 +111,14 @@ def get_account(
 
     Args:
 
-        id (int): This is the account id.
-        Token (str)
+        id (int): This is the account ID.
+        Token (str): This is the bearer token.
 
     Raises:
 
         HTTPException(json): If it is not a valid account id.
             Code: 404,
-            detail:Account not found.
+            detail: Account not found.
 
     Returns:
 
@@ -159,13 +159,13 @@ def get_accounts(
 
     Args:
 
-        Token (str)
+        Token (str): This is the bearer token.
 
     Raises:
 
         HTTPException(json): If it is not accounts.
             Code: 404,
-            detail:Accounts not found.
+            detail: Accounts not found.
 
     Returns:
 
@@ -215,21 +215,21 @@ def update_account(
 
         id (int): This is the account id.
         update_data(json): These are the data to update.
-        Token (str)
+        Token (str): This is the bearer token.
 
     Raises:
 
         HTTPException(json): If it is not a valid user id.
             Code: 404,
-            detail:User not found.
+            detail: User not found.
 
         HTTPException(json): If it is not a valid vault id.
             Code: 404,
-            detail:Vault not found.
+            detail: Vault not found.
 
         HTTPException(json): If it already exists account name.
             Code: 400,
-            detail:Account name already exists.
+            detail: Account name already exists.
 
     Returns:
 
@@ -284,7 +284,7 @@ def delete_account(
     id: int = Path(...,
                    gt=0,
                    example=1,
-                   description='Account ID to delete',
+                   description='Account ID to delete.',
                    ),
     current_user: user_model.UserModel = Depends(get_current_user),
     session: Session = Depends(get_db),
@@ -296,13 +296,13 @@ def delete_account(
     Args:
 
         id (int): This is the account id.
-        Token (str)
+        Token (str): This is the bearer token.
 
     Raises:
 
         HTTPException(json): If it is not account.
             Code: 404,
-            detail:Account not found.
+            detail: Account not found.
 
     Returns:
         json: Account data.

@@ -15,9 +15,31 @@ router = APIRouter()
 @router.post(path='/signup',
              status_code=status.HTTP_201_CREATED,
              response_model=user_schema.UserOut,
-             summary='Create a new user',
+             summary='Add a new user to the app',
              )
 def signup_user(user: user_schema.UserLogin = Body(...), session: Session = Depends(get_db)):
+    """Add a new user to the app
+
+    This is the path operation add a new account to the app.    
+
+    Args:
+
+        Account (json): These are the data to add. The example in the request body.
+
+    Raises:
+
+        HTTPException(json): If it already exists email.
+            Code: 400,
+            detail: Email already registered.
+        
+        HTTPException(json): If it already exists username.
+            Code: 400,
+            detail: Username already exists.
+
+    Returns:
+
+        _type_: _description_
+    """
     # Verify user
     user_reference_email = UserRepository(session).get_user(user.email)
 
@@ -59,9 +81,15 @@ def login_for_access_token(login_data: OAuth2PasswordRequestForm = Depends(), se
 
     Args:
 
-        form_data (OAuth2PasswordRequestForm): 
+        form_data: 
             - username: Ther user email.
             - password: The user password.
+
+    Raises:
+
+        HTTPException(json): If it is not a valid username or password.
+            Code: 401,
+            detail: Incorrect email or password.
 
     Returns:
 
