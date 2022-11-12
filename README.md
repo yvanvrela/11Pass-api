@@ -2,9 +2,10 @@
 
 ## Description
 
-This is project is a simple password manager REST API by FastAPI for 11Pass app.
+This project is a API REST for a password manager based on vaults containing accounts, by FastApi for the [11Pass App](https://github.com/JanetteIsasa/password_manager_app "11Pass App").
 
 ### Features
+---
 
 Features included:
 
@@ -50,7 +51,11 @@ Once you are running the server open the Swagger UI App to checkout the API docu
 
 Ff you run it on to localhost, the address would be http://localhost:8000/docs
 
+
+### Images
+
 ---
-![image](https://user-images.githubusercontent.com/65867767/201485810-2ace2b46-1309-47a2-8ea9-eb3bdf4a9f3f.png)
+
+![image](https://user-images.githubusercontent.com/65867767/201487226-19ddaf52-2a60-4b6b-8051-7a2b577c0a59.png)
 ![image](https://user-images.githubusercontent.com/65867767/201485911-2051268f-a50f-416c-9b6d-d4b730f9718e.png)
 
