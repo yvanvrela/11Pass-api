@@ -18,6 +18,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title=settings.project_name,
         openapi_url=f'{settings.api_v1_url}/openapi.json',
+        description=settings.project_description,
     )
 
     register_api_routers(app, prefix_url=settings.api_v1_url)

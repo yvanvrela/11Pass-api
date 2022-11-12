@@ -6,8 +6,9 @@ load_dotenv()
 
 
 class Settings(BaseSettings):
-    # Project Name
+    # Project Basics
     project_name: str = os.getenv('PROJECT_NAME')
+    project_description = os.getenv('PROJECT_DESCRIPTION')
 
     # Private var
     _db_name: str = os.getenv('DB_NAME')
