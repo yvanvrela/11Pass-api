@@ -38,7 +38,7 @@ def signup_user(user: user_schema.UserLogin = Body(...), session: Session = Depe
 
     Returns:
 
-        _type_: _description_
+        json: User data.
     """
     # Verify user
     user_reference_email = UserRepository(session).get_user(user.email)
