@@ -28,13 +28,13 @@ def signup_user(user: user_schema.UserLogin = Body(...), session: Session = Depe
 
     Raises:
 
-        HTTPException(json): If it already exists email.
+        HTTPException(json): If it already registered email.
             Code: 400,
             detail: Email already registered.
         
-        HTTPException(json): If it already exists username.
+        HTTPException(json): If it already registered username.
             Code: 400,
-            detail: Username already exists.
+            detail: Username already registered.
 
     Returns:
 
@@ -101,7 +101,7 @@ def login_for_access_token(login_data: OAuth2PasswordRequestForm = Depends(), se
     if not user_reference:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password",
+            detail="Incorrect email or password.",
             headers={"WWW-Authenticate": "Bearer"},
         )
 

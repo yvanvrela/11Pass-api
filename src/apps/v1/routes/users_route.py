@@ -14,24 +14,35 @@ router = APIRouter()
 @router.get(path='/{id}',
             status_code=status.HTTP_200_OK,
             response_model=user_schema.UserOut,
-            summary='Get a user',
+            summary='Find user by ID',
             )
 def get_user(
-    id: int = Path(..., gt=0, example=1,),
+    id: int = Path(...,
+                   gt=0,
+                   example=1,
+                   description='ID of user to return.',
+                   ),
     current_user: user_model.UserModel = Depends(get_current_user),
     session: Session = Depends(get_db),
-):
-    """Get a user
+) -> user_schema.UserOut:
+    """Find user by ID
 
-    This path operation show the user by the id in the database.
+    This path operation get user by ID, and return a single user.
 
     Args:
 
-        id (int): This is the user id.
+        id (int): This is the user ID.
+        Token (str): This is the bearer token.
+
+    Raises:
+
+        HTTPException(json): If it is not a valid user id.
+            Code: 404,
+            detail: User not found.
 
     Returns:
 
-        Usermodel: usermodel user information.
+        json: User data.
     """
     user_reference = UserRepository(session).get_user_by_id(id)
     if not user_reference:
@@ -53,27 +64,45 @@ def get_user(
 @router.put(path='/{id}',
             status_code=status.HTTP_200_OK,
             response_model=user_schema.UserOut,
-            summary='Update a user',
+            summary='Update an existing user',
             )
 def update_user(
-    id: int = Path(..., gt=0, example=1,),
+    id: int = Path(...,
+                   gt=0,
+                   example=1,
+                   description='ID of user to update.',
+                   ),
     update_data: user_schema.UserLogin = Body(...,),
     current_user: user_model.UserModel = Depends(get_current_user),
     session: Session = Depends(get_db),
-):
-    """Update a user
+) -> user_schema.UserOut:
+    """Update an existing user
 
-      This path operation updates the user by the id in the database.
+    This is the path operation that updates an existing user in the app.
 
-      Args:
+    Args:
 
         id (int): This is the user id.
-        update_data (user_schema.UserLogin): This is the User update data.
-        current_user (Token): This is the Token user.
+        update_data(json): These are the data to update.
+        Token (str): This is the bearer token.
 
-      Returns:
+    Raises:
 
-        UserModel: usermodel user information updated.
+        HTTPException(json): If it is not a valid user id.
+            Code: 404,
+            detail: User not found.
+
+        HTTPException(json): If it already registered email.
+            Code: 400,
+            detail: Email already registered.
+
+        HTTPException(json): If it already registered username.
+            Code: 400,
+            detail: Username already registered.
+
+    Returns:
+
+        json: User data.
     """
     # Verify user
     user_reference = UserRepository(session).get_user_by_id(user_id=id)
@@ -123,25 +152,34 @@ def update_user(
 @router.delete(path='/{id}',
                status_code=status.HTTP_200_OK,
                response_model=user_schema.UserOut,
-               summary='Delete a user',
+               summary='Delete an user',
                )
 def delete_user(
-    id: int = Path(..., gt=0, example=1),
+    id: int = Path(...,
+                   gt=0,
+                   example=1,
+                   description='User ID to delete.',
+                   ),
     current_user=Depends(get_current_user),
     session: Session = Depends(get_db)
 ):
-    """Delete a user
+    """Delete an user
 
-    This path operation delete a user by id in the database.
+    This is the path operation that deletes an existing user in the app.
 
     Args:
 
         id (int): This is the user id.
-        token (str): This is the bearer token of the user.
+        Token (str): This is the bearer token.
+
+    Raises:
+
+        HTTPException(json): If it is not user.
+            Code: 404,
+            detail: User not found.
 
     Returns:
-
-        status_code: 204
+        json: User data.
     """
     # Verify user
     user_reference = UserRepository(session).get_user_by_id(user_id=id)
